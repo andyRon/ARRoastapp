@@ -154,3 +154,44 @@ npm install vuex --save-dev
 - `/cafes`  获取系统的咖啡店列表
 - `/cafes/new`    POST 添加咖啡店
 - `/cafes/:id ` 加载某个咖啡店的信息
+
+
+
+
+
+```sh
+php artisan make:model Cafe -m
+```
+
+
+
+```php
+    public function up(): void
+    {
+        Schema::create('cafes', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->text('address');
+            $table->string('city');
+            $table->string('state');
+            $table->string('zip');
+            $table->decimal('latitude', 11, 8);
+            $table->decimal('longitude', 11, 8);
+            $table->timestamps();
+        });
+    }
+```
+
+
+
+
+
+```sh
+php artisan migrate
+```
+
+🔖
+
+
+
+### 8 通过Axios库构建API请求
