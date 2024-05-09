@@ -1,0 +1,53 @@
+<?php
+
+namespace App\Http\Controllers\Web;
+
+use App\Http\Controllers\Controller;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Laravel\Socialite\Facades\Socialite;
+
+class AuthenticationController extends Controller
+{
+    public function getSocialRedirect($account)
+    {
+
+        try {
+            return Socialite::driver($account)->redirect();
+        } catch (\InvalidArgumentException $e) {
+            return redirect('/login');
+        }
+    }
+
+    /**
+     * 从第三方 OAuth 回调（这里是 Github）中获取用户信息，
+     * 如果该用户在本应用中不存在的话将其保存到 users 表，然后手动对该用户进行登录认证操作；
+     * 如果已存在的话直接进行登录操作
+     * @param $account
+     * @return
+     */
+    public function getSocialCallback($account)
+    {
+        $socialUser = Socialite::driver($account)->user();
+        $user = DB::table('users')->where('provider_id', $socialUser->getId())
+            ->where('provider', $account)
+            ->first();
+        if ($user == null) {
+            $newUser = new User();
+            $newUser->name = $socialUser->getName();
+            $newUser->email = $socialUser->getEmail();
+            $newUser->avatar = $socialUser->getAvatar();
+            $newUser->password = '';
+            $newUser->provider = $account;
+            $newUser->provider_id = $socialUser->getId();
+
+            $newUser->save();
+            $user = $newUser;
+        }
+        // 手动登录
+        Auth::login($user);
+
+        return redirect('/');
+    }
+}
