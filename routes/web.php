@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\API\BrewMethodsController;
+use App\Http\Controllers\API\CafesController;
 use App\Http\Controllers\Web\AppController;
 use App\Http\Controllers\Web\AuthenticationController;
 use Illuminate\Support\Facades\Route;
@@ -29,8 +31,10 @@ Route::get("/login", [AppController::class, 'getLogin'])->name('login')->middlew
 //Route::get('/auth/{social}/callback', [AuthenticationController::class, 'getSocialCallback'])->middleware('guest');
 
 
+// 测试
 Route::get('test', function () {
     return \App\Utilities\GaodeMaps::geocodeAddress('张江高科地铁口', '上海', '上海');
 });
-
+Route::get('/cafe/{id}', [CafesController::class, 'getCafe']);
+Route::get('/brew-methods', [BrewMethodsController::class, 'getBrewMethods']);
 

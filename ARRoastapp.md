@@ -5,7 +5,7 @@ https://laravelacademy.org/books/api-driven-development-laravel-vue
 
 Laravel 10 + Vue 3
 
-## 一 Laravel初始化
+## 一、Laravel初始化
 
 ### 1 初始化Laravel单页面应用
 
@@ -222,7 +222,7 @@ php artisan passport:install
 
 
 
-## 二 JavaScript初始化
+## 二、JavaScript初始化
 
 ### 4 配置JavaScript和SASS
 
@@ -382,7 +382,7 @@ php artisan migrate
 
 
 
-## 三 Vuex&Vue Router使用入门：表单提交
+## 三、Vuex&Vue Router使用入门：表单提交
 
 ### 9 构建Vuex模块
 
@@ -620,3 +620,191 @@ https://lbs.amap.com/api/javascript-api/reference/overlay#marker
 
 [信息窗体和右键菜单-覆盖物](https://lbs.amap.com/api/javascript-api/guide/overlays/infowindow)
 
+
+
+## 五、添加喜欢、标签功能
+
+### 18 实现Laravel模型类之间的多对多关联及冲泡方法前端查询API
+
+一个咖啡店可能会提供多种冲泡方法，单个冲泡方法本身也不隶属于任何咖啡店，因此咖啡店和冲泡方法是多对多的关联关系。
+
+#### 1️⃣创建冲泡方法数据表
+
+```sh
+php artisan make:migration create_brew_methods_table
+```
+
+
+
+```sh
+php artisan make:seeder BrewMethodsSeeder
+```
+
+
+
+```sh
+php artisan db:seed --class=BrewMethodsSeeder
+```
+
+
+
+
+
+#### 2️⃣创建关联关系中间表
+
+```sh
+php artisan make:migration create_cafes_brew_methods_table
+```
+
+
+
+#### 3️⃣创建冲泡方法模型类
+
+```sh
+php artisan make:model BrewMethod
+```
+
+```php
+class BrewMethod extends Model
+{
+    // 定义与 Cafe 模型间的多对多关联
+    public function cafes()
+    {
+        return $this->belongsToMany(Cafe::class, 'cafes_brew_methods', 'brew_method_id', 'cafe_id');
+    }
+}
+```
+
+
+
+#### 4️⃣定义咖啡店与冲泡方法间的关联关系
+
+```php
+class Cafe extends Model
+{
+    // 定义与 BrewMethod 模型间的多对多关联
+    public function brewMethods()
+    {
+        return $this->belongsToMany(BrewMethod::class, 'cafes_brew_methods', 'cafe_id', 'brew_method_id');
+    }
+}
+```
+
+#### 5️⃣多对多关联查询
+
+```php
+    public function getCafes()
+    {
+        $cafes = Cafe::with('brewMethods')->get();
+        return response()->json($cafes);
+    }
+    public function getCafe($id)
+    {
+        $cafe = Cafe::where('id', '=', $id)->with('brewMethods')->first();
+        return response()->json($cafe);
+    }
+```
+
+使用 `with` 方法，将模型类中的关联关系方法名作为参数传入，这样对应的关联数据会以属性的方式出现在查询结果中，属性名就是 `with` 方法传入的字符串参数。
+
+
+
+#### 6️⃣实现冲泡方法查询API
+
+```sh
+php artisan make:controller API/BrewMethodsController
+```
+
+
+
+
+
+---
+
+🔖🔖
+
+### 19 通过Vue.js实现动态表单一次提交多个咖啡店位置信息
+
+
+
+
+
+### 20 通过Laravel+Vue实现喜欢/取消喜欢咖啡店功能
+
+
+
+### 21 咖啡店标签后端API接口功能实现
+
+
+
+### 22 咖啡店标签前端输入及显示功能实现
+
+
+
+## 六、实现数据筛选功能
+
+### 23 通过Vue Mixins在前端首页对咖啡店进行过滤筛选
+
+
+
+### 24 使用Vue Mixins在高德地图上对咖啡店点标记进行筛选过滤
+
+
+
+### 25 优化高德地图多个点标记信息窗体显示&引入 Google Analytics 进行单页面应用访问统计
+
+
+
+## 七、前端用户认证
+
+### 26 根据是否需要登录重新组织后端路由
+
+
+
+### 27 通过Vue组件实现单页面应用无跳转登录
+
+
+
+### 28 通过Vuex + Vue Router导航守卫在前端实现认证路由保护
+
+
+
+## 八、编辑用户信息
+
+### 29 实现用户个人信息编辑
+
+
+
+### 30 通过Laravel + Vue实现文件上传
+
+
+
+## 九、应用代码重构
+
+
+
+## 十、构建后台管理系统
+
+### 基于RBAC的咖啡店增删改查权限管理功能
+
+
+
+### 管理后台后端动作审核接口API 
+
+
+
+### 基于Vue Router路由元信息实现前端路由权限判断
+
+
+
+### 管理后台前端动作审核列表页面功能实现
+
+
+
+### 管理后台新增公司管理、用户管理、城市管理、冲泡方法管理等功能
+
+
+
+## 补充
+
+### 基于 Laravel Mix + Vue Router 路由懒加载实现单页面应用 JS 文件按组件分割

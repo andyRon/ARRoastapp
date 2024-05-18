@@ -6,9 +6,11 @@ const app = createApp({})
 app.use(Vuex)
 
 import {cafes} from "./modules/cafes.js";
+import {brewMethods} from "./modules/brewMethods.js";
 
 export default new Vuex.Store({
     modules: {
-        cafes
+        cafes,
+        brewMethods
     }
 })
