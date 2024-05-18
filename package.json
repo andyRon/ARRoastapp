@@ -8,6 +8,7 @@
     "devDependencies": {
         "@vitejs/plugin-vue": "^5.0.4",
         "axios": "^1.6.4",
+        "es6-promise": "^4.2.8",
         "foundation-sites": "^6.8.1",
         "jquery": "^3.2",
         "laravel-vite-plugin": "^1.0.2",

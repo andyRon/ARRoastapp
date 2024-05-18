@@ -19,15 +19,13 @@ use Illuminate\Support\Facades\Route;
 //    return $request->user();
 //});
 
-Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function() {
+//Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function() {
     Route::get('/user', function (Request $r) {
        return $r->user();
     });
 
     Route::get('/cafes', [CafesController::class, 'getCafes']);
-
     Route::get('/cafes/{id}', [CafesController::class, 'getCafe']);
-
     Route::post('/cafes', [CafesController::class, 'postNewCafe']);
 
-});
+//});
