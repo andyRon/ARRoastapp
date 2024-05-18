@@ -465,3 +465,74 @@ npm install es6-promise --save-dev
 
 
 ### 12 为Vue Router添加页面布局
+
+由于构建的是单页面应用，可以通过 Vue Router 来实现：创建一个根级页面，其中包含在每个页面都会用到的 Vue 组件，如 Header 和 Footer。使用布局的另一个好处是你可以一次加载所有你需要的 Vuex 数据，它们会随着布局里的组件出现在所有子页面上。
+
+#### 重新组织嵌套路由
+
+
+
+#### 添加Layout.vue
+
+
+
+#### 调整认证控制器重定向
+
+
+
+### 13 通过Vue组件、Vue Router、Vuex和Laravel实现表单提交
+
+- 添加一个提交新咖啡店的表单到 `NewCafe.vue` 文件
+- 发送请求动作到 `Cafes` 模块以便提交新咖啡店
+- 通过 JavaScript API 提交新咖啡店到 Laravel API
+- 将处理结果返回给前端，尤其是 Vuex 模块
+- 重新加载咖啡店并更新 Vuex 模块
+
+#### 添加表单到 NewCafe.vue 页面
+
+
+
+#### 提交新增的咖啡店数据
+
+
+
+#### 在 Vuex 模块中处理新增操作
+
+
+
+### 14 通过JavaScript和Laravel验证表单请求
+
+
+
+#### 1️⃣在 NewCafe.vue 组件中添加前端校验
+
+
+
+#### 2️⃣添加验证失败通知
+
+
+
+#### 3️⃣构建JavaScript验证函数
+
+
+
+
+
+#### 4️⃣为新增咖啡店构建 Laravel 请求验证类
+
+```sh
+php artisan make:request StoreCafeRequest
+```
+
+
+
+#### 5️⃣自定义验证失败消息
+
+
+
+#### 6️⃣添加请求验证类到控制器路由
+
+
+
+## 四、在地图上标记咖啡店
+

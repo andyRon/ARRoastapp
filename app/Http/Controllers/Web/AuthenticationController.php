@@ -53,6 +53,6 @@ class AuthenticationController extends Controller
         // 手动登录
         Auth::login($user);
 
-        return redirect('/');
+        return redirect('/#/home');
     }
 }
