@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * 用于检查用户是否已经通过认证。如果用户已经认证，这个中间件会自动重定向到指定的URL。
+ */
 class RedirectIfAuthenticated
 {
     /**
@@ -21,7 +24,7 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                return redirect(RouteServiceProvider::HOME);
+                return redirect('/');
             }
         }
 

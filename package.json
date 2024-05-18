@@ -6,6 +6,7 @@
         "build": "vite build"
     },
     "devDependencies": {
+        "@vitejs/plugin-vue": "^5.0.4",
         "axios": "^1.6.4",
         "foundation-sites": "^6.8.1",
         "jquery": "^3.2",

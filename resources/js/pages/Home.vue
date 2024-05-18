@@ -1,7 +1,3 @@
-<style>
-
-</style>
-
 <template>
     <div>
 
@@ -13,3 +9,7 @@ export default {
 
 }
 </script>
+
+<style>
+
+</style>

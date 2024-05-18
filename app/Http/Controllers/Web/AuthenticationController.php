@@ -10,6 +10,10 @@ use Laravel\Socialite\Facades\Socialite;
 
 class AuthenticationController extends Controller
 {
+    /**
+     * 重定向到第三方OAuth服务授权页面获取授权码
+     * @param $account {social}
+     */
     public function getSocialRedirect($account)
     {
 
@@ -29,6 +33,7 @@ class AuthenticationController extends Controller
      */
     public function getSocialCallback($account)
     {
+        // 从第三方 OAuth 回调中获取用户信息
         $socialUser = Socialite::driver($account)->user();
         $user = DB::table('users')->where('provider_id', $socialUser->getId())
             ->where('provider', $account)

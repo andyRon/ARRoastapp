@@ -20,11 +20,11 @@ use Illuminate\Support\Facades\Route;
 //});
 
 Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function() {
-   Route::get('/user', function (Request $r) {
+    Route::get('/user', function (Request $r) {
        return $r->user();
-   });
+    });
 
-   Route::get('/cafes', [CafesController::class, 'getCafes']);
+    Route::get('/cafes', [CafesController::class, 'getCafes']);
 
     Route::get('/cafes/{id}', [CafesController::class, 'getCafe']);
 

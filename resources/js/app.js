@@ -1,7 +1,7 @@
 import './bootstrap';
-import Vue from 'vue';
+import { createApp } from 'vue';
 import router from './routes.js'
+import Home from "./pages/Home.vue";
 
-new Vue({
-    router
-}).$mount('#app')
+
+createApp(Home).use(router).mount('#app')

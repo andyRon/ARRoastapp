@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css"/>
+    @vite('resources/css/app.css')
 
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
 
@@ -22,7 +22,7 @@
     <router-view></router-view>
 </div>
 
-<script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
+@vite('resources/js/app.js')
 
 </body>
 </html>
