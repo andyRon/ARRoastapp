@@ -536,3 +536,87 @@ php artisan make:request StoreCafeRequest
 
 ## 四、在地图上标记咖啡店
 
+### 15 通过高德地图Web服务API对咖啡店地址进行地理编码
+
+打开后续各种LBS功能大门的钥匙是首先将咖啡店的**物理地址转化为地图上的经纬度格式**，这个过程叫做==地理编码（Geocode）==。
+
+高德地图、百度地图、Google地图这些地图服务都提供了开放的 API。
+
+[高德地图Web服务API文档](https://lbs.amap.com/api/webservice/summary/)
+
+#### 1️⃣获取高德地图Web服务API Key
+
+遵循高德地图提供的[获取Key](https://lbs.amap.com/api/webservice/guide/create-project/get-key)这篇文档在控制台创建一个新应用，然后点击「添加 Key」 按钮，服务平台选择「Web服务」来添加一个 Key。
+
+
+
+#### 2️⃣添加API Key到配置文件
+
+
+
+#### 3️⃣构建高德地图工具类
+
+
+
+#### 4️⃣安装Guzzle HTTP扩展包
+
+```sh
+composer require guzzlehttp/guzzle
+```
+
+
+
+#### 5️⃣添加地理编码方法到工具类
+
+
+
+#### 6️⃣在新增咖啡店时保存经纬度
+
+
+
+### 16 通过Vue+高德地图JS API在地图上标记咖啡店
+
+
+
+#### 1️⃣获取高德地图JS API Key
+
+由于是在前端实现地图标记功能，所以需要申请高德地图的 JS API Key，和之前一样新建一个key，不过选在【Web端(JS API)】。
+
+
+
+#### 2️⃣将 API Key添加到config.js中
+
+
+
+#### 3️⃣添加高德地图脚本到 app.blade.php
+
+高德地图完整的 JS API 文档：https://lbs.amap.com/api/javascript-api/summary
+
+
+
+#### 4️⃣新增CafeMap组件
+
+#### 5️⃣添加高德地图到组件
+
+#### 6️⃣添加CafeMap组件到Cafes页面
+
+
+
+#### 7️⃣将咖啡店标记在地图上
+
+
+
+### 17 在高德地图上自定义咖啡店点标记图标并显示信息窗体
+
+
+
+#### 自定义点标记图标
+
+https://lbs.amap.com/api/javascript-api/reference/overlay#marker
+
+
+
+#### 信息窗体创建及点击展示事件
+
+[信息窗体和右键菜单-覆盖物](https://lbs.amap.com/api/javascript-api/guide/overlays/infowindow)
+

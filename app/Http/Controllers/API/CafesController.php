@@ -5,6 +5,9 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCafeRequest;
 use App\Models\Cafe;
+use App\Utilities\GaodeMaps;
+use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
 
 class CafesController extends Controller
@@ -29,6 +32,15 @@ class CafesController extends Controller
         $cafe->city = $request->input('city');
         $cafe->state = $request->input('state');
         $cafe->zip = $request->input('zip');
+
+        try {
+            $coordinates = GaodeMaps::geocodeAddress($cafe->address, $cafe->city, $cafe->state);
+            $cafe->latitude = $coordinates['lat'];
+            $cafe->longitude = $coordinates['lng'];
+        } catch (GuzzleException $e) {
+            Log::warning("获取经纬度失败。name：$cafe->name",);
+        }
+
 
         $cafe->save();
 

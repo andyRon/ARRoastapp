@@ -30,5 +30,7 @@ Route::get("/login", [AppController::class, 'getLogin'])->name('login')->middlew
 
 
 Route::get('test', function () {
-    return view('app');
+    return \App\Utilities\GaodeMaps::geocodeAddress('张江高科地铁口', '上海', '上海');
 });
+
+
