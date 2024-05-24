@@ -23,7 +23,6 @@
     <router-view></router-view>
 </div>
 
-
 <script src="https://webapi.amap.com/maps?v=1.4.15&key=af5985d1449b1e1978a2487e732c0114"></script>
 @vite('resources/js/app.js')
 

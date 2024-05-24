@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [AppController::class, 'getApp'])
-//    ->middleware('auth')
+    ->middleware('auth')
 ;
 
 // 登录页面
@@ -27,13 +27,15 @@ Route::get("/login", [AppController::class, 'getLogin'])->name('login')->middlew
 
 // 注册登录认证路由
 // {social}代表所使用的OAuth提供方，比如github，Socialite会根据这个参数值去config/services.php中获取对应的OAuth配置信息。
-//Route::get('/auth/{social}', [AuthenticationController::class, 'getSocialRedirect'])->middleware('guest');
-//Route::get('/auth/{social}/callback', [AuthenticationController::class, 'getSocialCallback'])->middleware('guest');
+Route::get('/auth/{social}', [AuthenticationController::class, 'getSocialRedirect'])->middleware('guest');
+Route::get('/auth/{social}/callback', [AuthenticationController::class, 'getSocialCallback'])->middleware('guest');
 
 
 // 测试
 Route::get('test', function () {
-    return \App\Utilities\GaodeMaps::geocodeAddress('张江高科地铁口', '上海', '上海');
+//    return \App\Utilities\GaodeMaps::geocodeAddress('张江高科地铁口', '上海', '上海');
+
+    return view('app');
 });
 Route::get('/cafe/{id}', [CafesController::class, 'getCafe']);
 Route::get('/brew-methods', [BrewMethodsController::class, 'getBrewMethods']);

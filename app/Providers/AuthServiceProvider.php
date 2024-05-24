@@ -22,6 +22,6 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-//        Passport::routes();  // TODO
+//        Passport::routes();  // 新版本Passport不要手动注册路由了
     }
 }

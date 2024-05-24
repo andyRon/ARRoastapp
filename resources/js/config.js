@@ -1,4 +1,3 @@
-
 var api_url = '';
 var gaode_maps_js_api_key = 'af5985d1449b1e1978a2487e732c0114';
 var app_url = '';

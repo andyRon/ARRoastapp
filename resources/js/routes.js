@@ -1,7 +1,4 @@
-// import { createApp } from "vue";
 import { createRouter, createWebHashHistory } from "vue-router";
-// import VueRouter from 'vue-router'
-
 
 const routes = [
     {
@@ -34,6 +31,7 @@ const routes = [
 ];
 
 const router = createRouter({
+        history: createWebHashHistory(),
         routes
 });
 
