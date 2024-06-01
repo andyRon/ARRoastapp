@@ -1,9 +1,22 @@
 ARRoastapp
 ---
 
-https://laravelacademy.org/books/api-driven-development-laravel-vue
+参考：https://laravelacademy.org/books/api-driven-development-laravel-vue
 
-Laravel 10 + Vue 3
+Laravel 10 + Vue 3构建的前后端分离，查找本地附近咖啡烘培店和专卖店
+
+
+
+第三方库说明：
+
+- [laravel-vite-plugin](https://github.com/laravel/vite-plugin)插件是专为 Laravel 项目设计的，它允许 Vite 在开发过程中实时刷新静态资源文件，如 CSS 和 JavaScript。这可以显著提高开发效率，因为它允许你在不重启服务器的情况下看到代码更改的效果。
+- [vitejs/plugin-vue](https://github.com/vitejs/vite-plugin-vue)是Vite的官方Vue插件，它为 Vue 项目提供了一些额外的功能，如代码分割、样式预处理等。
+- [Laravel Passport](https://github.com/laravel/passport)
+- Laravel Socialite
+- [Foudation6](https://get.foundation/sites) 
+- Vue3
+- [Vue Router](https://router.vuejs.org/zh/)
+- [Vuex](https://vuex.vuejs.org/zh/)
 
 ## 一、Laravel初始化
 
@@ -19,12 +32,14 @@ composer create-project --prefer-dist laravel/laravel ARRoastapp "10.*"
 
 #### 清理默认安装配置
 
+本项目基于API驱动，不需要：
+
 - 移除 `app/Http/Controllers/Auth` 目录，将通过 Socialite 重构用户认证功能
 - 移除 `resources/views/welcome.blade.php` 文件，这个是默认的欢迎页面，不需要它
 
 #### 新增目录
 
-对于提供 API 的应用而言，我们可以基于 API 和 Web 将控制器进行分隔：
+对于提供API的应用而言，可以基于API和Web将控制器进行分隔：
 
 - 创建 `app/Http/Controllers/API` 目录来存放 API 控制器
 - 创建 `app/Http/Controllers/Web` 目录来存放 Web 控制器
@@ -33,10 +48,10 @@ composer create-project --prefer-dist laravel/laravel ARRoastapp "10.*"
 
 #### 新增视图
 
-单页面应用（SPA）在整个应用中只需要两个视图即可！一个可以展示SPA视图以及一个登录视图：
+单页面应用（SPA）在整个应用中只需要两个视图即可！新增：
 
-- 新增 `resources/views/app.blade.php` 视图文件
-- 新增 `resources/views/login.blade.php` 视图文件
+- `resources/views/app.blade.php` 展示SPA视图
+- `resources/views/login.blade.php` 登录视图
 
 ```php
 <!DOCTYPE html>
@@ -68,16 +83,41 @@ composer create-project --prefer-dist laravel/laravel ARRoastapp "10.*"
 
 </body>
 </html>
-
 ```
 
-在两个地方存放了 CSRF Token 值，一个是名为 `csrf-token` 的 meta 标签，一个是全局 JavaScript 变量 `window.Laravel`，我们会将其添加到 Axios 请求头，以便在每个请求中传递来阻止恶意请求。
+在两个地方存放了CSRF Token值，一个是名为 `csrf-token` 的 meta 标签，一个是全局 JavaScript 变量 `window.Laravel`，会将其添加到 Axios 请求头，以便在每个请求中传递来阻止恶意请求。
 
-此外，还需要在所有 API 路由和 Web 路由的 `CreateFreshApiToken` 中使用 `auth:api` 中间件（下一篇教程中详细讲述）🔖，以便可以安全消费应用自己提供的 API。
+此外，还需要在所有API路由和Web路由的`CreateFreshApiToken`中使用 `auth:api` 中间件（下一篇教程中详细讲述）🔖，以便可以安全消费应用自己提供的API。
 
 `<div id="app"><router-view></router-view></div> `元素将在开发应用侧边栏时包含由 `VueRouter` 定义的路由视图。
 
-Vite
+所有的外部 CSS 和 JavaScript 文件都将通过Vite编译合并通过下面方式引入：
+
+```php
+    @vite('resources/css/app.css')
+
+
+@vite('resources/js/app.js')
+```
+
+
+
+```php
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roast</title>
+</head>
+<body>
+<a href="/auth/github">
+    Log In With Github
+</a>
+</body>
+</html>
+```
+
+本应用通过 [Laravel Socialite](https://laravelacademy.org/post/9043.html) 实现的第三方应用登录。
 
 #### 新增Web控制器和路由
 
@@ -117,7 +157,7 @@ composer require laravel/socialite
 
 
 
-#### 配置 Github 认证
+#### 配置Github认证
 
 https://github.com/settings/developers
 
@@ -178,7 +218,7 @@ Route::get('/auth/{social}', [AuthenticationController::class, 'getSocialRedirec
 Route::get('/auth/{social}/callback', [AuthenticationController::class, 'getSocialCallback'])->middleware('guest');
 ```
 
-6. 在AuthenticationController.php中编写具体的GitHub登录认证代码
+6. 在`AuthenticationController.php`中编写具体的GitHub登录认证代码
 
 
 
@@ -232,7 +272,7 @@ php artisan passport:install
 
 在 Laravel Passport 的新版本中，没有 `routes` 方法来注册认证路由。Passport 的路由现在是通过 Laravel 的路由系统自动注册的，不需要手动在服务提供者中注册它们。
 
-可以通过编辑 `routes/api.php` 文件来修改默认的路由。
+可以通过编辑 `routes/api.php` 文件来修改默认的路由。🔖
 
 #### 4️⃣设置Passport在输入API请求中使用
 
@@ -279,29 +319,105 @@ protected $middlewareGroups = [
 
 
 
+#### 配置app.js
 
+
+
+#### 配置SASS
+
+安装 [Foudation6](https://get.foundation/sites) （世界上最先进的响应式前端框架。为适用于任何类型设备的网站快速创建原型和生产代码。）
 
 ```sh
 npm install foundation-sites --save-dev
 ```
 
+在app.scss中引入
+
+```scss
+@import "foundation-sites/scss/foundation";
+```
 
 
-#### 设置 SASS 目录
+
+#### 设置SASS目录
 
 [Sass 指南](https://sass-guidelin.es/#the-7-1-pattern)
+
+```scss
+sass/
+|
+|– abstracts/
+|   |– _variables.scss    # Sass Variables
+|   |– _functions.scss    # Sass Functions
+|   |– _mixins.scss       # Sass Mixins
+|   |– _placeholders.scss # Sass Placeholders
+|
+|– base/
+|   |– _reset.scss        # Reset/normalize
+|   |– _typography.scss   # Typography rules
+|   …                     # Etc.
+|
+|– components/
+|   |– _buttons.scss      # Buttons
+|   |– _carousel.scss     # Carousel
+|   |– _cover.scss        # Cover
+|   |– _dropdown.scss     # Dropdown
+|   …                     # Etc.
+|
+|– layout/
+|   |– _navigation.scss   # Navigation
+|   |– _grid.scss         # Grid system
+|   |– _header.scss       # Header
+|   |– _footer.scss       # Footer
+|   |– _sidebar.scss      # Sidebar
+|   |– _forms.scss        # Forms
+|   …                     # Etc.
+|
+|– pages/
+|   |– _home.scss         # Home specific styles
+|   |– _contact.scss      # Contact specific styles
+|   …                     # Etc.
+|
+|– themes/
+|   |– _theme.scss        # Default theme
+|   |– _admin.scss        # Admin theme
+|   …                     # Etc.
+|
+|– vendors/
+|   |– _bootstrap.scss    # Bootstrap
+|   |– _jquery-ui.scss    # jQuery UI
+|   …                     # Etc.
+|
+`– main.scss              # Main Sass file
+```
+
+
+
+
 
 
 
 ### 5 引入Vue3、Vue Router和Vuex
 
+Vue3用于处理所有响应式设计和 Web 组件的构建。
+
+[Vue Router](https://router.vuejs.org/zh/)和 Vue3一起工作用于提供路由组件，其原理是使用了**[HTML 5 History API](https://developer.mozilla.org/zh-CN/docs/Web/API/History_API)**在应用程序中创建可链接页面，不过是以单页面应用方式执行。
+
 [Vuex](https://vuex.vuejs.org/zh/) 用于处理单页面应用数据的**状态管理系统**，它会在单一数据源（Single Source of Truth）中存放应用所使用的所有数据，这在处理大型应用程序的时候非常有用。如果你之前使用过组件和模块但没有使用过单一数据源，就需要来回传递很多属性来保持数据的同步，随着应用越来越复杂，这样的操作会越来越麻烦，使应用变得难以维护。而使用 Vuex 的话，你可以导入特定模块到组件中，这样这些组件就可以访问模块中的数据，你可以调用执行变更的动作来更新数据，以保证所有更改都被跟踪，所有数据都保持同步。
 
 Vue为Firefox和Chrom 提供了开发工具：[vuejs/vue-devtools](https://github.com/vuejs/vue-devtools)，可以查看应用当前状态和组件数据、路由信息以及事件跟踪。
 
+#### 1️⃣引入Vue
+
+```js
+import { createApp } from 'vue';
+
+createApp({}).mount('#app')
+```
 
 
-#### 安装Vue Router和vuex
+
+#### 2️⃣安装Vue Router和vuex
 
 ```sh
 npm install vue-router --save-dev
@@ -311,7 +427,7 @@ npm install vuex --save-dev
 
 
 
-#### 配置JavaScript目录
+#### 3️⃣配置JavaScript目录
 
 好的目录结构可以让项目更容易维护，也具备更好的可读性。
 
@@ -321,17 +437,13 @@ npm install vuex --save-dev
 - 创建 `resources/assets/js/pages` 目录，在 Vue Router 中，页面本质上也是组件，不过我喜欢将它们放到单独的目录中作为「特殊的」组件，这样更容易被找到，页面也可以包含子页面，这一点我们在后面会讲到
 - 创建 `resources/assets/js/modules` 目录，用于数据存储，Vuex 将数据分割到多个组件并存放到这个目录。如果你之前使用过 Vuex，官方文档提到过要将操作、修改和获取分割到不同的目录，不过在 Vue 2 中，这些都将合并到一个模块
 
-#### 创建JavaScript文件
+#### 4️⃣创建JavaScript文件
 
 - config.js
 - event-bus.js，事件总线，用于通过不同组件之间的消息传递进行通信
 
 - routes.js，包含所有 Roast 单页面应用的前端路由
 - store.js，Vuex 模块的起点，Vuex 由一个父模块和多个子模块构成，该文件包含父模块，随后我们会导入所有子模块到这个文件。
-
-#### 设置 Vue
-
-
 
 
 
@@ -354,7 +466,36 @@ npm install vuex --save-dev
 - `/cafes/new` - 新增咖啡店
 - `/cafes/:id` - 显示单个咖啡店
 
+```json
+[
+  {
+    path: '/',
+    name: 'home',
+    component: () => import('./pages/Home.vue')
+  },
+  {
+    path: '/cafes',
+    name: 'cafes',
+    component: () => import('./pages/Cafes.vue')
+  },
+  {
+    path: '/cafes/new',
+    name: 'newcafe',
+    component: () => import('./pages/NewCafe.vue')
+  },
+  {
+    path: '/cafes/:id',
+    name: 'cafe',
+    component: () => import('./pages/Cafe.vue')
+  },
+]
+```
 
+每个路由都有一个`name`，以便在应用中直接通过名字就可以访问该路由。
+
+此外，每个路由还有一个`component`对象，用于定义渲染每个页面的Vue组件。
+
+`:id`表示动态路由参数。
 
 #### 添加页面组件
 
@@ -472,7 +613,7 @@ php artisan migrate
 
 
 
-## 三、Vuex&Vue Router使用入门：表单提交
+## 三、Vuex&Vue Router使用入门：表单提交  🔖
 
 前文同构Axios库构建了一些调用 Laravel 后端 API 路由的方法。这篇将从 API 接口获取的数据保存下来以便在单页面应用中使用，而这正是 Vuex 模块可以大展拳脚的地方。
 
@@ -892,6 +1033,10 @@ php artisan make:request StoreCafeRequest
 
 #### 4️⃣安装Guzzle HTTP扩展包
 
+在调用高德地图 API 之前需要安装相应的网络扩展包发送 HTTP 请求。
+
+这里使用 [Guzzle HTTP](https://guzzle-cn.readthedocs.io/zh_CN/latest/index.html) ：
+
 ```sh
 composer require guzzlehttp/guzzle
 ```
@@ -900,15 +1045,15 @@ composer require guzzlehttp/guzzle
 
 #### 5️⃣添加地理编码方法到工具类
 
-
+[地理编码文档](https://lbs.amap.com/api/webservice/guide/api/georegeo)
 
 #### 6️⃣在新增咖啡店时保存经纬度
 
 
 
-### 16 通过Vue+高德地图JS API在地图上标记咖啡店
+### 16 通过Vue+高德地图JS API在地图上标记咖啡店 🔖
 
-
+将基于地理编码在地图上标记咖啡店。
 
 #### 1️⃣获取高德地图JS API Key
 
@@ -924,11 +1069,22 @@ composer require guzzlehttp/guzzle
 
 高德地图完整的 JS API 文档：https://lbs.amap.com/api/javascript-api/summary
 
-
+```html
+<!-- 引入高德地图-->
+<script src="https://webapi.amap.com/maps?v=1.4.15&key=..."></script>
+```
 
 #### 4️⃣新增CafeMap组件
 
+将以 Vue 组件方式展示地图，以便可以插入到不同页面，从而方便复用和维护。
+
+
+
 #### 5️⃣添加高德地图到组件
+
+在 `CafeMap.vue` 组件中初始化高德地图的绘制
+
+
 
 #### 6️⃣添加CafeMap组件到Cafes页面
 
@@ -938,13 +1094,21 @@ composer require guzzlehttp/guzzle
 
 
 
-### 17 在高德地图上自定义咖啡店点标记图标并显示信息窗体
+### 17 在高德地图上自定义咖啡店点标记图标并显示信息窗体 
 
 
 
 #### 自定义点标记图标
 
 https://lbs.amap.com/api/javascript-api/reference/overlay#marker
+
+`storage/app/public/img`
+
+在 `public` 目录下创建一个软链接 `storage` 指向 `storage/app/public`: 
+
+```sh
+php artisan storage:link
+```
 
 
 
@@ -1049,6 +1213,10 @@ php artisan make:controller API/BrewMethodsController
 
 
 
+前端查询代码：
+
+
+
 
 
 ---
@@ -1140,3 +1308,15 @@ php artisan make:controller API/BrewMethodsController
 ## 补充
 
 ### 基于 Laravel Mix + Vue Router 路由懒加载实现单页面应用 JS 文件按组件分割
+
+
+
+### bug和待添加功能
+
+- [ ] 其它第三方登录（如微博、qq）
+
+- [ ] 2中基于GitHub登录认证流程图
+
+  
+
+  

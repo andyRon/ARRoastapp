@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class AppController extends Controller
 {
@@ -14,5 +15,7 @@ class AppController extends Controller
     public function getLogin()
     {
         return view('login');
+//        Auth::logout();
+//        return redirect('/');
     }
 }

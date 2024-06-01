@@ -36,7 +36,7 @@
 
 
 <style lang="scss">
-    @import '~@/abstracts/_variables.scss';
+    @import '../../../sass/abstracts/_variables.scss';
 
 
     nav.top-navigation {

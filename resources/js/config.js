@@ -7,7 +7,7 @@ switch (process.env.NODE_ENV) {
         api_url = 'http://127.0.0.1:8000/api/';
         break;
     case 'production':
-        api_url = 'http://***/api/v1';
+        api_url = 'http://arroast.test/api/v1';
         break;
 }
 

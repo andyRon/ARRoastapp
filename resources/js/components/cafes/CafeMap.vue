@@ -1,4 +1,3 @@
-
 <template>
     <div id="cafe-map">
         <div class="grid-x">
@@ -11,13 +10,6 @@
         </div>
     </div>
 </template>
-
-<style lang="scss">
-    div#cafe-map {
-        width: 100%;
-        height: 400px;
-    }
-</style>
 
 <script>
 import {ROAST_CONFIG} from "../../config.js";
@@ -50,6 +42,8 @@ export default {
         }
     },
     mounted() {
+        // 定义高德地图初始化绘制脚本
+        // 在mounted() 方法中定义，为了每次页面载入时都会重新绘制地图：
         this.map = new AMap.Map('cafe-map', {
             center: [this.latitude, this.longitude],
             zoom: this.zoom
@@ -116,3 +110,10 @@ export default {
     }
 }
 </script>
+
+<style lang="scss">
+div#cafe-map {
+    width: 100%;
+    height: 400px;
+}
+</style>
