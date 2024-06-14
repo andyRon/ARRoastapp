@@ -57,11 +57,16 @@
                     <div class="large-12 medium-12 small-12 cell">
                         <label>支持的冲泡方法</label>
                         <span class="brew-method" v-for="brewMethod in brewMethods">
-                        <input v-bind:id="'brew-method-'+brewMethod.id+'-'+key" type="checkbox"
-                               v-bind:value="brewMethod.id"
-                               v-model="locations[key].methodsAvailable">
-                        <label v-bind:for="'brew-method-'+brewMethod.id+'-'+key">{{ brewMethod.method }}</label>
-                    </span>
+                            <input v-bind:id="'brew-method-'+brewMethod.id+'-'+key" type="checkbox"
+                                   v-bind:value="brewMethod.id"
+                                   v-model="locations[key].methodsAvailable">
+                            <label v-bind:for="'brew-method-'+brewMethod.id+'-'+key">{{ brewMethod.method }}</label>
+                        </span>
+
+                        <div class="large-12 medium-12 small-12 cell">
+                            <tags-input v-bind:unique="key"></tags-input>
+                        </div>
+
                     </div>
                     <div class="large-12 medium-12 small-12 cell">
                         <a class="button" v-on:click="removeLocation(key)">移除位置</a>
@@ -82,7 +87,13 @@
 </template>
 
 <script>
+import TagsInput from '../components/global/forms/TagsInput.vue';
+import { EventBus } from '../event-bus.js';
+
 export default {
+    components: {
+        TagsInput
+    },
     data() {
         return {
             name: '',
@@ -188,7 +199,7 @@ export default {
             return validNewCafeForm;
         },
         addLocation: function () {  // 用于新增一个位置区块到表单中，并在组件创建后进行调用
-            this.locations.push({name: '', address: '', city: '', state: '', zip: '', methodsAvailable: []});
+            this.locations.push({name: '', address: '', city: '', state: '', zip: '', methodsAvailable: [], tags: ''});
             this.validations.locations.push({
                address: {
                    is_valid: true,
@@ -233,6 +244,10 @@ export default {
                     text: ''
                 }
             };
+
+            // TODO  清理标签输入框的值
+            EventBus.$emit('clear-tags');
+
             // 清理完表单数据信息后，添加一个新的位置信息到表单
             this.addLocation();
         }
@@ -255,6 +270,11 @@ export default {
                 $("#cafe-added-unsuccessfully").show().delay(5000).fadeOut();
             }
         }
+    },
+    mounted() {
+        EventBus.$on('tags-edited', function (tagsAdded) {
+            this.locations[tagsAdded.unique].tags = tagsAdded.tags;
+        }.bind(this));
     }
 }
 </script>
