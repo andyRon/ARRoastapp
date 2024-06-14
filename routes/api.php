@@ -15,6 +15,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// 无须登录即可访问
+Route::group(['prefix' => 'v1'], function () {
+
+});
+
 Route::group(['prefix' => 'v1'
 //    , 'middleware' => 'auth:api'
 ], function() {

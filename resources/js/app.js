@@ -11,3 +11,6 @@ app.mount('#app')
 app.config.devtools=true
 
 
+console.log(router.getRoutes())
+
+
