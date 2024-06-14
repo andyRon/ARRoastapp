@@ -14,8 +14,11 @@ class Cafe extends Model
 {
     use HasFactory;
 
-    // 定义与 BrewMethod 模型间的多对多关联
-    public function brewMethods()
+    /**
+     *  Cafe与rewMethod之间的多对多关联
+     * @return BelongsToMany
+     */
+    public function brewMethods(): BelongsToMany
     {
         return $this->belongsToMany(BrewMethod::class, 'cafes_brew_methods', 'cafe_id', 'brew_method_id');
     }

@@ -36,6 +36,5 @@ Route::get('test', function () {
     return \App\Utilities\GaodeMaps::geocodeAddress('张江高科地铁口', '上海', '上海');
 //    return view('app');
 });
-Route::get('/cafe/{id}', [CafesController::class, 'getCafe']);
-Route::get('/brew-methods', [BrewMethodsController::class, 'getBrewMethods']);
+
 

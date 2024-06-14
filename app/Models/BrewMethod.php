@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * 冲泡方法模型类
+ */
 class BrewMethod extends Model
 {
     use HasFactory;

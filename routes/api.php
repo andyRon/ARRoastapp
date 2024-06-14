@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\BrewMethodsController;
 use App\Http\Controllers\API\CafesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -18,6 +19,11 @@ use Illuminate\Support\Facades\Route;
 // 无须登录即可访问
 Route::group(['prefix' => 'v1'], function () {
 
+    Route::get('/cafes', [CafesController::class, 'getCafes']);
+    Route::get('/cafes/{id}', [CafesController::class, 'getCafe']);
+
+    Route::get('/brew-methods', [BrewMethodsController::class, 'getBrewMethods']);
+
 });
 
 Route::group(['prefix' => 'v1'
@@ -27,8 +33,5 @@ Route::group(['prefix' => 'v1'
        return $r->user();
     });
 
-    Route::get('/cafes', [CafesController::class, 'getCafes']);
-    Route::get('/cafes/{id}', [CafesController::class, 'getCafe']);
     Route::post('/cafes', [CafesController::class, 'postNewCafe']);
-
 });

@@ -7,6 +7,7 @@
                         <label>名称
                             <input type="text" placeholder="咖啡店名" v-model="name">
                         </label>
+                        <!-- 验证失败通知 -->
                         <span class="validation" v-show="!validations.name.is_valid">{{ validations.name.text }}</span>
                     </div>
                     <div class="large-12 medium-12 small-12 cell">

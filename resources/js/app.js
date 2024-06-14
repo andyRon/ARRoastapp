@@ -9,8 +9,10 @@ const app = createApp({
 })
 app.mount('#app')
 app.config.devtools=true
+// app.use(router)
+// app.use(store)
 
 
-console.log(router.getRoutes())
+console.log(router)
 
 

@@ -32,11 +32,10 @@ class StoreCafeRequest extends FormRequest
 
     /**
      * 自定义验证失败消息
-     *
      * {key}.{validation} => {message}
      * @return string[]
      */
-    public function messages()
+    public function messages(): array
     {
         return [
             'name.required'     => '咖啡店名字不能为空',

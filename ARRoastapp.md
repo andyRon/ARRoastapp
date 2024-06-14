@@ -982,6 +982,8 @@ export default {
 
 
 
+🔖 调试
+
 ### 14 通过JavaScript和Laravel验证表单请求
 
 
@@ -1009,6 +1011,29 @@ php artisan make:request StoreCafeRequest
 
 
 #### 5️⃣自定义验证失败消息
+
+
+
+`StoreCafeRequest` 为例，中的 `messages()` 方法：
+
+```php
+    /**
+     * 自定义验证失败消息
+     * {key}.{validation} => {message}
+     * @return string[]
+     */
+    public function messages(): array
+    {
+        return [
+            'name.required'     => '咖啡店名字不能为空',
+            'address.required'  => '咖啡店地址不能为空',
+            'city.required'     => '咖啡店所在城市不能为空',
+            'state.required'    => '咖啡店所在省份不能为空',
+            'zip.required'      => '咖啡店邮编不能为空',
+            'zip.regex'         => '无效的邮政编码'
+        ];
+    }
+```
 
 
 
@@ -1059,6 +1084,8 @@ composer require guzzlehttp/guzzle
 #### 6️⃣在新增咖啡店时保存经纬度
 
 
+
+🔖 调试
 
 ### 16 通过Vue+高德地图JS API在地图上标记咖啡店 🔖
 
@@ -1212,7 +1239,7 @@ class Cafe extends Model
 
 使用 `with` 方法，将模型类中的关联关系方法名作为参数传入，这样对应的关联数据会以属性的方式出现在查询结果中，属性名就是 `with` 方法传入的字符串参数。
 
-
+http://arroast.test/cafe/3
 
 #### 6️⃣实现冲泡方法查询API
 
@@ -1227,8 +1254,6 @@ php artisan make:controller API/BrewMethodsController
 
 
 🔖🔖前端问题处理后再继续
-
-
 
 
 

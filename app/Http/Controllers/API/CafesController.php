@@ -7,6 +7,7 @@ use App\Http\Requests\StoreCafeRequest;
 use App\Models\Cafe;
 use App\Utilities\GaodeMaps;
 use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
 
@@ -14,17 +15,17 @@ class CafesController extends Controller
 {
     public function getCafes()
     {
-        $cafes = Cafe::with('brewMethods')->get();
+        $cafes = Cafe::query()->with('brewMethods')->get();
         return response()->json($cafes);
     }
 
     public function getCafe($id)
     {
-        $cafe = Cafe::where('id', '=', $id)->with('brewMethods')->first();
+        $cafe = Cafe::query()->where('id', '=', $id)->with('brewMethods')->first();
         return response()->json($cafe);
     }
 
-    public function postNewCafe(StoreCafeRequest $request)
+    public function postNewCafe(StoreCafeRequest $request): JsonResponse
     {
         $cafe = new Cafe();
         $cafe->name = $request->input('name');
