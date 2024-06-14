@@ -1228,6 +1228,12 @@ php artisan make:controller API/BrewMethodsController
 
 🔖🔖前端问题处理后再继续
 
+
+
+
+
+
+
 ### 19 通过Vue.js实现动态表单一次提交多个咖啡店位置信息
 
 由于一个咖啡店可能有多个分店，可能需要多个位置字段（具体数目未知），因此需要一个动态表单。
@@ -1244,11 +1250,64 @@ php artisan make:controller API/BrewMethodsController
 
 
 
+#### 定义咖啡店模型的父子关联
+
+```sh
+php artisan make:migration added_cafe_parent_child_relationship
+```
+
+
+
 ### 20 通过Laravel+Vue实现喜欢/取消喜欢咖啡店功能
+
+#### 创建用户喜欢表
+
+```sh
+php artisan make:migration added_users_cafes_likes --create=users_cafes_likes
+```
+
+
 
 
 
 ### 21 咖啡店标签后端API接口功能实现
+
+#### 创建标签表
+
+```sh
+php artisan make:migration create_tags_table --create=tags
+```
+
+#### 创建中间表
+
+标签、咖啡店、用户三者关联关系的中间表 `cafes_users_tags`：
+
+```sh
+php artisan make:migration create_cafes_users_tags_table --create=cafes_users_tags
+```
+
+
+
+#### 创建标签模型类
+
+```sh
+php artisan make:model Tag
+```
+
+
+
+#### 在咖啡店模型类中定义与标签的关联关系
+
+还需要在咖啡店模型类 `app/Models/Cafe.php` 中定于咖啡店与标签之间的多对多关联方法 `tags`：
+
+```php
+public function tags()
+{
+    return $this->belongsToMany(Tag::class, 'cafes_users_tags', 'cafe_id', 'tag_id');
+}
+```
+
+这样，就可以在查询咖啡店时获取咖啡店的标签了。
 
 
 
@@ -1290,17 +1349,120 @@ php artisan make:controller API/BrewMethodsController
 
 
 
+#### 完善用户信息表
+
+```sh
+php artisan make:migration alter_users_add_profile_fields --table=users
+```
+
+
+
+
+
+
+
 ### 30 通过Laravel + Vue实现文件上传
 
+#### 创建存储文件表
+
+```sh
+php artisan make:migration create_cafes_photos_table
+```
 
 
-## 九、应用代码重构
+
+#### 在模型类中定义关联关系
+
+```sh
+php artisan make:model CafePhoto
+```
+
+
+
+
+
+## 九、应用代码重构🔖
+
+功能模块重构 & CSS 整体优化
+
+### 首页篇 
+
+#### 数据表调整
+
+```sh
+php artisan make:migration create_companies_table --create=companies
+
+php artisan make:migration create_cities_table --create=cities
+```
+
+
+
+```sh
+php artisan make:migration alter_cafes_drop_company_columns --table=cafes
+```
+
+
+
+```sh
+php artisan make:migration create_company_owners_table --create=company_owners
+```
+
+
+
+```sh
+php artisan make:migration alter_cafes_add_city_id --table=cafes
+```
+
+
+
+```sh
+php artisan make:migration alter_companies_add_subscription --table=companies
+php artisan make:migration add_brew_methods_icon --table=brew_methods
+```
+
+
+
+### 新增咖啡店篇
+
+
+
+```sh
+php artisan make:migration alter_cafes_add_matcha_tea --table=cafes
+```
+
+
+
+### 实现编辑/删除咖啡店功能
+
+
+
+
+
+### 咖啡店详情页篇
+
+
+
+### 通过Vue Transitions实现Vue组件的CSS动画效果&若干Bug修复
+
+
 
 
 
 ## 十、构建后台管理系统
 
 ### 基于RBAC的咖啡店增删改查权限管理功能
+
+```sh
+php artisan make:migration alter_users_add_permission --table=users
+```
+
+
+
+
+
+```sh
+php artisan make:migration create_actions_table --create=actions
+```
 
 
 
