@@ -1338,11 +1338,39 @@ UX（User Experience，用户体验）
 
 ### 20 通过Laravel+Vue实现喜欢/取消喜欢咖啡店功能
 
-#### 创建用户喜欢表
+#### 20.1 创建用户喜欢表
 
 ```sh
 php artisan make:migration added_users_cafes_likes --create=users_cafes_likes
 ```
+
+
+
+#### 20.2 构建模型间关联关系
+
+
+
+#### 20.3 添加喜欢/取消喜欢路由及其路由
+
+
+
+#### 20.4 添加路由到cafe.js
+
+
+
+#### 20.5 更新Vuex Cafe模块
+
+
+
+#### 20.6 更新 Cafe.vue 页面
+
+
+
+#### 20.7 添加喜欢/取消喜欢咖啡店组件
+
+
+
+#### 20.8 确保载入咖啡店时加载是否喜欢状态
 
 
 

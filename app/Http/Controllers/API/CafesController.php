@@ -6,8 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCafeRequest;
 use App\Models\Cafe;
 use App\Utilities\GaodeMaps;
+use Carbon\Carbon;
 use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
 
@@ -21,7 +26,10 @@ class CafesController extends Controller
 
     public function getCafe($id)
     {
-        $cafe = Cafe::query()->where('id', '=', $id)->with('brewMethods')->first();
+        $cafe = Cafe::query()->where('id', '=', $id)
+            ->with('brewMethods')
+            ->with('userLike')
+            ->first();
         return response()->json($cafe);
     }
 
@@ -100,5 +108,34 @@ class CafesController extends Controller
         }
 
         return response()->json($addedCafes, 201);
+    }
+
+    /**
+     * 喜欢咖啡店
+     * @param $cafeId
+     * @return JsonResponse
+     */
+    public function postLikeCafe($cafeId)
+    {
+        $cafe = Cafe::query()->where('id', '=', $cafeId)->first();
+        $cafe->likes()->attach(Auth::user()->id, [
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+        return response()->json(['cafe_liked' => true], 201);
+    }
+
+    /**
+     * 取消喜欢咖啡店
+     * @param $cafeID
+     * @return Application|ResponseFactory|\Illuminate\Foundation\Application|Response
+     */
+    public function deleteLikeCafe($cafeID)
+    {
+        $cafe = Cafe::query()->where('id', '=', $cafeID)->first();
+
+        $cafe->likes()->detach(Auth::user()->id);
+
+        return response(null, 204);
     }
 }

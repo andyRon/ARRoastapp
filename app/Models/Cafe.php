@@ -63,4 +63,18 @@ class Cafe extends Model
     {
         return $this->hasMany(CafePhoto::class, 'id', 'cafe_id');
     }
+
+    /**
+     * cafe与User间的多对对关联
+     * @return BelongsToMany
+     */
+    public function likes(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'users_cafes_likes', 'cafe_id', 'user_id');
+    }
+
+    public function userLike()
+    {
+        return $this->belongsToMany(User::class, 'users_cafes_likes', 'cafe_id', 'user_id')->where('user_id', auth()->id());
+    }
 }

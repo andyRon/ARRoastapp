@@ -34,4 +34,7 @@ Route::group(['prefix' => 'v1'
     });
 
     Route::post('/cafes', [CafesController::class, 'postNewCafe']);
+
+    Route::post('/cafes/{id)/like',[CafesController::class, 'postLikeCafe']);
+    Route::delete('/cafes/{id)/like',[CafesController::class, 'deleteLikeCafe']);
 });

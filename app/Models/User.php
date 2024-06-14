@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -53,5 +54,14 @@ class User extends Authenticatable
     public function cafePhotos()
     {
         return $this->hasMany(CafePhoto::class, 'id', 'cafe_id');
+    }
+
+    /**
+     * User与Cafe间的多对多关联
+     * @return BelongsToMany
+     */
+    public function likes(): BelongsToMany
+    {
+        return $this->belongsToMany(Cafe::class, 'users_cafes_likes', 'user_id', 'cafe_id');
     }
 }
