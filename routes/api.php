@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\BrewMethodsController;
 use App\Http\Controllers\API\CafesController;
+use App\Http\Controllers\API\TagsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,6 +25,8 @@ Route::group(['prefix' => 'v1'], function () {
 
     Route::get('/brew-methods', [BrewMethodsController::class, 'getBrewMethods']);
 
+    Route::get('/tags', [TagsController::class, 'getTags']);
+
 });
 
 Route::group(['prefix' => 'v1'
@@ -37,4 +40,7 @@ Route::group(['prefix' => 'v1'
 
     Route::post('/cafes/{id)/like',[CafesController::class, 'postLikeCafe']);
     Route::delete('/cafes/{id)/like',[CafesController::class, 'deleteLikeCafe']);
+
+    Route::post('/cafes/{id}/tags', [CafesController::class, 'postAddTags']);
+    Route::delete('/cafes/{id}/tags/{tagID}', [CafesController::class, 'deleteCafeTag']);
 });

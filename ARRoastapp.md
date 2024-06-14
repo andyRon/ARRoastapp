@@ -1376,15 +1376,15 @@ php artisan make:migration added_users_cafes_likes --create=users_cafes_likes
 
 
 
-### 21 咖啡店标签后端API接口功能实现
+### 21 咖啡店标签后端接口
 
-#### 创建标签表
+#### 1️⃣创建标签表
 
 ```sh
 php artisan make:migration create_tags_table --create=tags
 ```
 
-#### 创建中间表
+#### 2️⃣创建中间表
 
 标签、咖啡店、用户三者关联关系的中间表 `cafes_users_tags`：
 
@@ -1394,7 +1394,7 @@ php artisan make:migration create_cafes_users_tags_table --create=cafes_users_ta
 
 
 
-#### 创建标签模型类
+#### 3️⃣创建标签模型类
 
 ```sh
 php artisan make:model Tag
@@ -1402,7 +1402,7 @@ php artisan make:model Tag
 
 
 
-#### 在咖啡店模型类中定义与标签的关联关系
+#### 4️⃣在咖啡店模型类中定义与标签的关联关系
 
 还需要在咖啡店模型类 `app/Models/Cafe.php` 中定于咖啡店与标签之间的多对多关联方法 `tags`：
 
@@ -1414,6 +1414,26 @@ public function tags()
 ```
 
 这样，就可以在查询咖啡店时获取咖啡店的标签了。
+
+
+
+#### 5️⃣定义标签路由及其方法
+
+
+
+#### 6️⃣标签搜索
+
+```sh
+php artisan make:controller API/TagsController
+```
+
+
+
+#### 7️⃣更新新增咖啡店处理方法
+
+
+
+
 
 
 
