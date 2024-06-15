@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\BrewMethodsController;
 use App\Http\Controllers\API\CafesController;
+use App\Http\Controllers\API\CitiesController;
 use App\Http\Controllers\API\TagsController;
 use App\Http\Controllers\API\UsersController;
 use Illuminate\Http\Request;
@@ -28,6 +29,9 @@ Route::group(['prefix' => 'v1'], function () {
     Route::get('/brew-methods', [BrewMethodsController::class, 'getBrewMethods']);
 
     Route::get('/tags', [TagsController::class, 'getTags']);
+
+    Route::get('/cities', [CitiesController::class, 'getCities']);
+    Route::get('/cities/{slug}', [CitiesController::class, 'getCity']);
 
 });
 

@@ -2,7 +2,10 @@ import {createStore} from 'vuex';
 import 'es6-promise';
 import {cafes} from "./modules/cafes.js";
 import {brewMethods} from "./modules/brewMethods.js";
-
+import {users} from './modules/users.js';
+import {filters} from './modules/filters.js';
+import {display} from './modules/display.js';
+import {cities} from './modules/cities.js';
 
 const store = createStore({
     state () {
@@ -12,7 +15,11 @@ const store = createStore({
     },
     modules: {
         cafes,
-        brewMethods
+        brewMethods,
+        users,
+        filters,
+        display,
+        cities
     }
 })
 export default store;

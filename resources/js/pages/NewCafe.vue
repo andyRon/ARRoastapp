@@ -239,7 +239,7 @@ export default {
             this.roaster = false;
             this.picture = '';
             this.$refs.photo.value = '';
-            
+
             this.validations = {
                 name: {
                     is_valid: true,
