@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\BrewMethodsController;
 use App\Http\Controllers\API\CafesController;
 use App\Http\Controllers\API\TagsController;
+use App\Http\Controllers\API\UsersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,7 @@ use Illuminate\Support\Facades\Route;
 
 // 无须登录即可访问
 Route::group(['prefix' => 'v1'], function () {
+    Route::get('/user', [UsersController::class, 'getUser']);
 
     Route::get('/cafes', [CafesController::class, 'getCafes']);
     Route::get('/cafes/{id}', [CafesController::class, 'getCafe']);
@@ -43,4 +45,6 @@ Route::group(['prefix' => 'v1'
 
     Route::post('/cafes/{id}/tags', [CafesController::class, 'postAddTags']);
     Route::delete('/cafes/{id}/tags/{tagID}', [CafesController::class, 'deleteCafeTag']);
+
+    Route::put('/user', [UsersController::class, 'putUpdateUser']);
 });

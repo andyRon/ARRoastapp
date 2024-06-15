@@ -4,6 +4,7 @@ import Layout from "./pages/Layout.vue";
 import Cafes from "./pages/Cafes.vue";
 import NewCafe from "./pages/NewCafe.vue";
 import Cafe from  "./pages/Cafe.vue";
+import Profile from "./pages/Profile.vue";
 
 const routes = [
     {
@@ -34,6 +35,12 @@ const routes = [
                 // component: () => import('./pages/Cafe.vue'),
                 component: Cafe,
             },
+            {
+                path: '/profile',
+                name: '/profile',
+                component: Profile,
+                // beforeEnter:
+            }
         ]
     }
 ];

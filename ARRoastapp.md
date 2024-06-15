@@ -1560,7 +1560,11 @@ php artisan make:controller API/TagsController
 
 
 
-### 25 优化高德地图多个点标记信息窗体显示&引入 Google Analytics 进行单页面应用访问统计
+### 25 优化高德地图多个点标记信息窗体显示&引入Google Analytics进行单页面应用访问统计 🔖
+
+#### 优化多点标记高德地图信息窗体显示
+
+
 
 
 
@@ -1568,9 +1572,37 @@ php artisan make:controller API/TagsController
 
 ### 26 根据是否需要登录重新组织后端路由
 
+#### 重新组织API路由
+
+对应用而言，一般首页、列表页、详情页都应该是可以公开访问的，只有新增、编辑、喜欢、取消喜欢等与用户相关的功能需要登录后才能访问。
 
 
-### 27 通过Vue组件实现单页面应用无跳转登录
+
+#### 移除老的登录界面 🔖
+
+
+
+#### 移除`/`路由上的认证中间件 🔖
+
+
+
+### 27 通过Vue组件实现单页面应用无跳转登录 🔖
+
+#### 前端默认重定向到首页
+
+
+
+#### 为用户登录创建模态框组件
+
+
+
+#### 引入 LoginModal.vue
+
+
+
+#### 调整需要登录后显示的视图
+
+
 
 
 
@@ -1578,11 +1610,20 @@ php artisan make:controller API/TagsController
 
 
 
+
+
+
+
 ## 八、编辑用户信息
 
 ### 29 实现用户个人信息编辑
 
+为ARRoast应用添加个人信息编辑页用于完善用户个人信息，以便附近有新咖啡店，或者某个咖啡店新增了用户最喜欢的冲泡方法时通知用户，此外，收集个人信息还可以为用户及朋友推荐附近的咖啡店，从而逐渐形成一个咖啡社区。基于以上种种功能，需要收集以下用户信息：
 
+- 最喜欢的咖啡类型
+- 口味记录
+- 是否公开用户信息
+- 位置信息
 
 #### 完善用户信息表
 
@@ -1592,7 +1633,29 @@ php artisan make:migration alter_users_add_profile_fields --table=users
 
 
 
+#### 新增处理用户更新路由
 
+
+
+#### 更新用户信息请求验证
+
+```sh
+php artisan make:request EditUserRequest
+```
+
+
+
+#### 实现更新个人信息方法
+
+
+
+#### 前端表单提交功能实现
+
+之前[新增咖啡店](https://laravelacademy.org/post/9618.html)的实现思路一致：在 Vuex 模块中定义 Action、Mutation 和 Getter，在 Vue Router 中新增一个路由，然后在个人信息编辑页面组件中使用 Vuex 获取数据并提交 Action，最终通过在 Action 中调用的 Axios 发送请求到后端 API 接口实现表单提交。
+
+
+
+#### 添加链接指向个人信息编辑页
 
 
 
@@ -1611,6 +1674,26 @@ php artisan make:migration create_cafes_photos_table
 ```sh
 php artisan make:model CafePhoto
 ```
+
+
+
+#### 创建图片存放目录
+
+`storage/app/public/photos`
+
+#### 调整前端添加咖啡店 API 调用方法
+
+
+
+#### 更新Vuex Action传递图片参数
+
+
+
+#### 更新新增咖啡店表单允许上传图片
+
+
+
+#### 修改后端 API 处理图片上传🔖🔖
 
 
 

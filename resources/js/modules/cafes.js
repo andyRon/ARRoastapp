@@ -53,7 +53,7 @@ export const cafes = {
             // 状态1表示开始添加
             commit( 'setCafeAddStatus', 1 );
 
-            CafeAPI.postAddNewCafe(data.name, data.locations, data.website, data.description, data.roaster)
+            CafeAPI.postAddNewCafe(data.name, data.locations, data.website, data.description, data.roaster, data.picture)
                 .then(function (response){
                     // 状态2表示添加成功
                     commit( 'setCafeAddStatus', 2 );

@@ -8,14 +8,19 @@ export default {
     getCafe: function (cafeID) {
         return axios.get(ROAST_CONFIG.API_URL + '/cafes/' + cafeID);
     },
-    postAddNewCafe: function (name, locations, website, description, roaster) {
+    postAddNewCafe: function (name, locations, website, description, roaster, picture) {
         return axios.post(ROAST_CONFIG.API_URL + '/cafes', {
             name: name,
             locations: locations,
             website: website,
             description: description,
-            roaster: roaster
-        })
+            roaster: roaster,
+            picture: picture
+        },{
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
     },
     /**
      * POST  /api/v1/cafes/{cafeID}/like

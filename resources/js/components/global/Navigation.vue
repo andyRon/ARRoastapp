@@ -14,6 +14,10 @@
 
         <div class="right">
             <img class="avatar" :src="user.avatar" v-show="userLoadStatus == 2" alt=""/>
+
+            <router-link :to="{ name: 'profile'}" v-if="user != '' && userLoadStatus == 2" class="profile">
+                个人信息
+            </router-link>
         </div>
     </nav>
 </template>

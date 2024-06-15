@@ -4,15 +4,21 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EditUserRequest;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
-class UserController extends Controller
+class UsersController extends Controller
 {
     public function getUser()
     {
         return Auth::guard('api')->user(); // TODO
     }
 
+    /**
+     * 更新用户个人信息
+     * @param EditUserRequest $request
+     * @return JsonResponse
+     */
     public function putUpdateUser(EditUserRequest $request)
     {
         $user = Auth::user();
