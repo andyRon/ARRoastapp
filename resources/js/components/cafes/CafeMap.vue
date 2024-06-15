@@ -1,20 +1,29 @@
 <template>
-    <div id="cafe-map">
-        <div class="grid-x">
-            <div class="large-9 medium-9 small-12 cell">
-                <cafe-map></cafe-map>
-            </div>
-            <div class="large-3 medium-3 small-12 cell">
+    <div id="cafe-map-container">
+        <div id="cafe-map">
 
-            </div>
         </div>
+        <cafe-map-filter></cafe-map-filter>
     </div>
 </template>
 
 <script>
 import {ROAST_CONFIG} from "../../config.js";
+import CafeMapFilter from './CafeMapFilter.vue';
+import { EventBus } from '../../event-bus.js';
+import { CafeIsRoasterFilter } from '../../mixins/filters/CafeIsRoasterFilter.js';
+import { CafeBrewMethodsFilter } from '../../mixins/filters/CafeBrewMethodsFilter.js';
+import { CafeTextFilter } from '../../mixins/filters/CafeTextFilter.js';
 
 export default {
+    components: {
+        CafeMapFilter
+    },
+    mixins: [
+        CafeIsRoasterFilter,
+        CafeBrewMethodsFilter,
+        CafeTextFilter
+    ],
     props: {
         'latitude': {  // 经度
             type: Number,
@@ -52,6 +61,11 @@ export default {
         // 清除并重构点标记
         this.clearMarkers();
         this.buildMarkers();
+
+        // 监听 filters-updated 事件过滤点标记
+        EventBus.$on('filters-updated', function (filters) {
+            this.processFilters(filters);
+        }.bind(this));
     },
     computed: {
         cafes(){
@@ -75,9 +89,13 @@ export default {
             for (var i = 0; i < this.cafes.length; i++) {
 
                 // 通过高德地图 API 为每个咖啡店创建点标记并设置经纬度
-                var marker = new AMap.Marker({
-                    position: AMap.LngLat(parseFloat(this.cafes[i].latitude), parseFloat(this.cafes[i].longitude)),
-                    title: this.cafes[i].name
+                var marker = new AMap.Marker({  // TODO
+                    position: new AMap.LngLat(parseFloat(this.cafes[i].latitude), parseFloat(this.cafes[i].longitude)),
+                    title: this.cafes[i].location_name,
+                    icon: icon,
+                    extData: {
+                        'cafe': this.cafes[i]
+                    }
                 });
 
                 // 为每个咖啡店创建信息窗体
@@ -106,7 +124,45 @@ export default {
             for (var i = 0; i < this.markers.length; i++) {
                 this.markers[i].setMap(null);
             }
-        }
+        },
+
+        processFilters(filters) {
+            for (var i = 0; i < this.markers.length; i++) {
+                if (filters.text === ''
+                    && filters.roaster === false
+                    && filters.brew_methods.length === 0) {
+                    this.markers[i].setMap(this.map);
+                } else {
+                    var textPassed = false;
+                    var brewMethodsPassed = false;
+                    var roasterPassed = false;
+
+                    if (filters.roaster && this.processCafeIsRoasterFilter(this.markers[i].getExtData().cafe)) {
+                        roasterPassed = true;
+                    } else if (!filters.roaster) {
+                        roasterPassed = true;
+                    }
+
+                    if (filters.text !== '' && this.processCafeTextFilter(this.markers[i].getExtData().cafe, filters.text)) {
+                        textPassed = true;
+                    } else if (filters.text === '') {
+                        textPassed = true;
+                    }
+
+                    if (filters.brew_methods.length !== 0 && this.processCafeBrewMethodsFilter(this.markers[i].getExtData().cafe, filters.brew_methods)) {
+                        brewMethodsPassed = true;
+                    } else if (filters.brew_methods.length === 0) {
+                        brewMethodsPassed = true;
+                    }
+
+                    if (roasterPassed && textPassed && brewMethodsPassed) {
+                        this.markers[i].setMap(this.map);
+                    } else {
+                        this.markers[i].setMap(null);
+                    }
+                }
+            }
+        },
     }
 }
 </script>
@@ -115,5 +171,20 @@ export default {
 div#cafe-map {
     width: 100%;
     height: 400px;
+}
+div#cafe-map-container {
+    position: absolute;
+    top: 50px;
+    left: 0px;
+    right: 0px;
+    bottom: 50px;
+
+    div#cafe-map {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        bottom: 0px;
+    }
 }
 </style>
