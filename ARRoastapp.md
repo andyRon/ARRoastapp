@@ -1888,7 +1888,53 @@ php artisan make:model Action
 
 
 
-### 管理后台后端动作审核接口API 
+### 37 后台管理后端动作审核接口实现 
+
+#### 1️⃣新增拦截非后台管理员的中间件
+
+```sh
+php artisan make:middleware Owner
+```
+
+
+
+#### 2️⃣初始化控制器方法
+
+```sh
+php artisan make:controller API/Admin/ActionsController
+```
+
+
+
+#### 3️⃣注册管理后台路由
+
+
+
+#### 4️⃣实现获取待审核动作方法
+
+
+
+#### 5️⃣创建 Action Policy
+
+创建用于动作审核授权的 Action 策略类，以判断用户是否有操作权限
+
+```sh
+php artisan make:policy ActionPolicy
+```
+
+
+
+#### 6️⃣实现通过动作审核方法
+
+
+
+
+
+#### 7️⃣实现拒绝动作审核方法
+
+
+
+
 
 
 

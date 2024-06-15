@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\Admin\ActionsController;
 use App\Http\Controllers\API\BrewMethodsController;
 use App\Http\Controllers\API\CafesController;
 use App\Http\Controllers\API\CitiesController;
@@ -51,4 +52,14 @@ Route::group(['prefix' => 'v1'
     Route::delete('/cafes/{id}/tags/{tagID}', [CafesController::class, 'deleteCafeTag']);
 
     Route::put('/user', [UsersController::class, 'putUpdateUser']);
+});
+
+// 后台管理
+Route::group(['prefix' => 'v1/admin', 'middleware' => [
+//    'auth:api',
+    'owner'
+]], function () {
+    Route::get('/actions', [ActionsController::class, 'getActions']);
+    Route::put('/actions/{action}/approve', [ActionsController::class, 'putApproveAction']);
+    Route::put('/action/{action}/deny', [ActionsController::class, 'putDenyAction']);
 });

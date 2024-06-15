@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
+use App\Models\Action;
 use App\Models\Cafe;
+use App\Policies\ActionPolicy;
 use App\Policies\CafePolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Laravel\Passport\Passport;
@@ -17,6 +19,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         Cafe::class => CafePolicy::class,  // TODO
+        Action::class => ActionPolicy::class
     ];
 
     /**

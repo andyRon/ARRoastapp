@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Action;
+use Carbon\Carbon;
 
 /**
  * 封装 actions表新增记录逻辑
@@ -54,6 +55,33 @@ class ActionService
         $action->processed_by = $userId;
         $action->processed_on = Carbon::now();
 
+        $action->save();
+    }
+
+    /**
+     * 批准动作
+     * @param $action
+     * @param $processedBy
+     * @return void
+     */
+    public function approveAction($action, $processedBy)
+    {
+        $action->status = Action::STATUS_APPROVED;
+        $action->processed_by = $processedBy;
+        $action->processed_on = Carbon::now();
+        $action->save();
+    }
+
+    /**
+     * 拒绝动作审核，标记为不通过
+     * @param Action $action
+     * @param int $processedBy
+     */
+    public function denyAction($action, $processedBy)
+    {
+        $action->status = Action::STATUS_DENIED;
+        $action->processed_by = $processedBy;
+        $action->processed_on = Carbon::now();
         $action->save();
     }
 }
