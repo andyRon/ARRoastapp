@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Action;
+use App\Models\Cafe;
 use App\Models\User;
 use App\Services\ActionService;
 use App\Services\CafeService;
@@ -97,6 +98,15 @@ class ActionsController extends Controller
      */
     public function putDenyAction(Action $action)
     {
+        if (Auth::user()->cant('deny', $action)) {
+            abort(403, '该用户没有拒绝审核权限');
+        }
 
+        // 拒绝这条变更请求
+        $actionService = new ActionService();
+        $actionService->denyAction($action, Auth::user()->id);
+
+        // 返回响应
+        return response()->json('', 204);
     }
 }

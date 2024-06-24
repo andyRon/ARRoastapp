@@ -6,6 +6,9 @@ use App\Models\City;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 
+/**
+ * 高德地图工具类
+ */
 class GaodeMaps
 {
     /**
@@ -57,6 +60,7 @@ class GaodeMaps
      * @param $latitude
      * @param $longitude
      * @return int|null
+     * @throws GuzzleException
      */
     public static function findClosestCity($name, $latitude, $longitude)
     {

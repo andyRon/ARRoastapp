@@ -15,8 +15,9 @@ class CafeService
      * @param array $data 咖啡店数据
      * @param int $addedBy 添加者
      * @return Cafe
+     * @throws GuzzleException
      */
-    public function addCafe($data, $addedBy)
+    public function addCafe($data, $addedBy): Cafe
     {
         $companyID = isset($data['company_id']) ? $data['company_id'] : '';
         // 如果对应公司不存在，先添加之

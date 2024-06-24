@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Request;
 
 class CafesController extends Controller
 {
-    public function getCafes()
+    public function getCafes(): JsonResponse
     {
         $cafes = Cafe::query()->with('brewMethods')
             ->with(['tags' => function ($query) {
@@ -37,7 +37,7 @@ class CafesController extends Controller
         return response()->json($cafes);
     }
 
-    public function getCafe($id)
+    public function getCafe($id): JsonResponse
     {
         $cafe = Cafe::query()->where('id', '=', $id)
             ->with('brewMethods')
@@ -158,10 +158,11 @@ class CafesController extends Controller
 
     /**
      * 喜欢咖啡店
+     * Post /cafes/{id}/like
      * @param $cafeId
      * @return JsonResponse
      */
-    public function postLikeCafe($cafeId)
+    public function postLikeCafe($cafeId): JsonResponse
     {
         $cafe = Cafe::query()->where('id', '=', $cafeId)->first();
         $cafe->likes()->attach(Auth::user()->id, [
@@ -173,6 +174,7 @@ class CafesController extends Controller
 
     /**
      * 取消喜欢咖啡店
+     * Delete /cafes/{id}/like
      * @param $cafeID
      * @return Application|ResponseFactory|\Illuminate\Foundation\Application|Response
      */
@@ -187,6 +189,7 @@ class CafesController extends Controller
 
     /**
      * 给咖啡店添加标签
+     * Post /api/v1/cafes/{id}/tags
      * @param Request $request
      * @param $cafeID
      * @return JsonResponse
@@ -209,6 +212,7 @@ class CafesController extends Controller
 
     /**
      * 删除咖啡店上的指定标签
+     * DELETE /api/v1/cafes/{id}/tags/{tagID}
      * @param $cafeID
      * @param $tagID
      * @return Response
@@ -284,4 +288,24 @@ class CafesController extends Controller
             return response()->json(['cafe_delete_pending' => $cafe->company->name], 202);
         }
     }
+
+    /**
+     * 获取待编辑咖啡店数据
+     * GET /api/v1/cafes/{slug}/edit
+     * @param string $id
+     * @return JsonResponse
+     */
+    public function getCafeEditData(string $id): JsonResponse
+    {
+        $cafe = Cafe::where('id', '=', $id)
+            ->with('brewMethods')
+            ->withCount('userLike')
+            ->with(['company' => function ($query) {
+                $query->withCount('cafes');
+            }])
+            ->first();
+        return response()->json($cafe);
+    }
+
+
 }

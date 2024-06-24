@@ -11,6 +11,7 @@ class CitiesController extends Controller
 {
     /**
      * 获取所有城市
+     * GET /api/v1/cities
      * @return JsonResponse
      */
     public function getCities(): JsonResponse
@@ -21,6 +22,7 @@ class CitiesController extends Controller
 
     /**
      * 获取指定城市
+     * GET /api/v1/cities/{slug}
      * @param $slug
      * @return JsonResponse
      */

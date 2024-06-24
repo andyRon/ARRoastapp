@@ -4,6 +4,7 @@ use App\Http\Controllers\API\Admin\ActionsController;
 use App\Http\Controllers\API\BrewMethodsController;
 use App\Http\Controllers\API\CafesController;
 use App\Http\Controllers\API\CitiesController;
+use App\Http\Controllers\API\CompaniesController;
 use App\Http\Controllers\API\TagsController;
 use App\Http\Controllers\API\UsersController;
 use Illuminate\Http\Request;
@@ -34,6 +35,8 @@ Route::group(['prefix' => 'v1'], function () {
     Route::get('/cities', [CitiesController::class, 'getCities']);
     Route::get('/cities/{slug}', [CitiesController::class, 'getCity']);
 
+    Route::get(' /companies/search', [CompaniesController::class, 'getCompanySearch']);
+
 });
 
 Route::group(['prefix' => 'v1'
@@ -52,6 +55,10 @@ Route::group(['prefix' => 'v1'
     Route::delete('/cafes/{id}/tags/{tagID}', [CafesController::class, 'deleteCafeTag']);
 
     Route::put('/user', [UsersController::class, 'putUpdateUser']);
+
+    Route::get('/cafes/{id}/edit', [CafesController::class, 'getCafeEditData']);
+    Route::put('/cafes/{id}', [CafesController::class, 'putEditCafe']);
+    Route::delete('/cafes/{id}', [CafesController::class, 'deleteCafe']);
 });
 
 // 后台管理

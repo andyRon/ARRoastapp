@@ -31,7 +31,7 @@
     </div>
 </template>
 
-<script setup>
+<script >
 import TagsInput from '../global/forms/TagsInput.vue';
 import {EventBus} from '../../event-bus.js';
 

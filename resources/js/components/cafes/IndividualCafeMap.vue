@@ -4,7 +4,7 @@
     </div>
 </template>
 
-<script setup>
+<script >
 import {ROAST_CONFIG} from "../../config.js";
 
 export default {
@@ -45,7 +45,7 @@ export default {
             this.map.add(marker);
         }
     }
-}
+};
 </script>
 
 <style lang="scss">

@@ -85,17 +85,16 @@ composer create-project --prefer-dist laravel/laravel ARRoastapp "10.*"
 </html>
 ```
 
-在两个地方存放了CSRF Token值，一个是名为 `csrf-token` 的 meta 标签，一个是全局 JavaScript 变量 `window.Laravel`，会将其添加到 Axios 请求头，以便在每个请求中传递来阻止恶意请求。
+在两个地方存放了CSRF Token值，一个是名为 `csrf-token` 的 meta 标签，一个是全局 JavaScript 变量 `window.Laravel`，会将其添加到 Axios 请求头，**以便在每个请求中传递来阻止恶意请求**。
 
-此外，还需要在所有API路由和Web路由的`CreateFreshApiToken`中使用 `auth:api` 中间件（下一篇教程中详细讲述）🔖，以便可以安全消费应用自己提供的API。
+此外，还需要在所有API路由和Web路由的`CreateFreshApiToken`中使用`auth:api`中间件（下一篇教程中详细讲述），以便可以安全消费应用自己提供的API。
 
-`<div id="app"><router-view></router-view></div> `元素将在开发应用侧边栏时包含由 `VueRouter` 定义的路由视图。
+`<div id="app"><router-view></router-view></div> `元素将在开发应用侧边栏时包含由`VueRouter`定义的路由视图。
 
-所有的外部 CSS 和 JavaScript 文件都将通过Vite编译合并通过下面方式引入：
+所有的外部CSS和JavaScript文件都将通过Vite编译合并通过下面方式引入：
 
 ```php
-    @vite('resources/css/app.css')
-
+@vite('resources/css/app.css')
 
 @vite('resources/js/app.js')
 ```
@@ -238,17 +237,13 @@ php artisan migrate
 
 
 
-### 3 安装配置Laravel Passport
+### 3 安装配置Laravel Passport 🔖
 
-通过 [Laravel Passport](https://github.com/laravel/passport)，你可以在几分钟内搭建起一个功能完备的 OAuth 服务器，用户可以像 Github、微信、QQ、Google 那样基于你提供的 OAuth 服务登录到不同的 Web 服务。不过，我们的目标是**不同设备通过同一个入口获取同一份数据**，而这正是 API 驱动应用的强大之处。对所有数据库增删改查方法而言，数据结构和调用方法都是一样的，你可以从多个平台消费这些 API，例如移动端、Web 浏览器。
+通过[Laravel Passport](https://github.com/laravel/passport)，可以在几分钟内搭建起一个功能完备的OAuth服务器，用户可以像Github、微信、QQ、Google那样基于你提供的OAuth服务登录到不同的Web服务。不过，我们的目标是**不同设备通过同一个入口获取同一份数据**，而这正是 API 驱动应用的强大之处。对所有数据库增删改查方法而言，数据结构和调用方法都是一样的，你可以从多个平台消费这些 API，例如移动端、Web 浏览器。
 
+Laravel Socialite是以便用户通过社交媒体账户提供的 OAuth 服务进行登录认证。
 
-
-Laravel Socialite，以便用户通过社交媒体账户提供的 OAuth 服务进行登录认证。
-
-而Laravel Passport 搭建一个自己的 OAuth 服务器，以便颁发凭证给用户，让他们可以访问自己的应用数据，比如授权登录。
-
-
+而Laravel Passport是搭建一个自己的OAuth服务器，以便颁发凭证给用户，让他们可以访问自己的应用数据，比如授权登录。
 
 ```sh
 composer require laravel/passport
@@ -264,15 +259,15 @@ php artisan passport:install
 
 生成安全访问令牌（token）所需的加密键，此外，该命令还会创建「personal access」和「password grant」客户端用于生成访问令牌，保存在表`oauth_clients`中。
 
-#### 2️⃣在用户模型类中使用 HasApiTokens 
+#### 2️⃣在用户模型类中使用HasApiTokens 
 
 
 
 #### 3️⃣在AuthServiceProvider中注册Passport路由
 
-在 Laravel Passport 的新版本中，没有 `routes` 方法来注册认证路由。Passport 的路由现在是通过 Laravel 的路由系统自动注册的，不需要手动在服务提供者中注册它们。
+在 Laravel Passport 的新版本中，没有`routes`方法来注册认证路由。Passport 的路由现在是通过 Laravel 的路由系统自动注册的，不需要手动在服务提供者中注册它们。
 
-可以通过编辑 `routes/api.php` 文件来修改默认的路由。🔖
+可以通过编辑`routes/api.php`文件来修改默认的路由。🔖
 
 #### 4️⃣设置Passport在输入API请求中使用
 
@@ -571,8 +566,6 @@ php artisan migrate
 
 
 
-
-
 > ```
 > php artisan make:factory CafeFactory --model=Cafe
 > 
@@ -819,11 +812,11 @@ actions: {
 
 ### 10 在Vue组件中使用Vuex模块❤️ 
 
-#### 1️⃣设置 Home.vue 组件
+#### 1️⃣设置Home.vue组件
 
-在一个API驱动的单页面应用中，会首先加载 HTML、CSS 和 JavaScript，这意味着**页面会在布局和样式加载之后才加载数据**。
+在一个API驱动的单页面应用中，会首先加载HTML、CSS 和 JavaScript，这意味着**页面会在布局和样式加载之后才加载数据**。
 
-所要做的就是绑定 Home 页面组件的一个声明周期钩子并加载数据.【Vue的生命周期钩子】
+所要做的就是绑定Home页面组件的一个声明周期钩子并加载数据.【Vue的生命周期钩子】
 
 应用首页，需要展示咖啡店列表。
 
@@ -843,7 +836,7 @@ created() {
 
 #### 3️⃣将咖啡店添加到组件
 
-在Vuex模块中设置的所有 `getters` 都会以计算属性的方式导入到Vue组件中，在应用首页，我们在希望获取已加载的咖啡店数据以及数据加载状态，以便给用户展示是否在加载数据。
+在Vuex模块中设置的所有`getters`都会以计算属性的方式导入到Vue组件中，在应用首页，我们在希望获取已加载的咖啡店数据以及数据加载状态，以便给用户展示是否在加载数据。
 
 要实现上述目的，需要两个计算属性，并且需要将其添加到 `Home.vue` 文件：
 
@@ -986,8 +979,6 @@ export default {
 
 ### 14 通过JavaScript和Laravel验证表单请求
 
-
-
 #### 1️⃣在 NewCafe.vue 组件中添加前端校验
 
 
@@ -1069,6 +1060,8 @@ php artisan make:request StoreCafeRequest
 
 在调用高德地图 API 之前需要安装相应的网络扩展包发送 HTTP 请求。
 
+> Guzzle 是一个**PHP HTTP客户端**，它使得发送 HTTP 请求变得简单，并且易于与 Web 服务整合。Guzzle 提供了构建查询字符串、POST 请求、大批量上传和下载的简单接口，支持上传和下载文件、使用 HTTP cookies、上传 JSON 数据等功能。此外，Guzzle 还允许使用同一个接口同时发送同步和异步请求。它使用 PSR-7 接口进行请求、响应和流操作，这使得 Guzzle 可以与其他兼容 PSR-7 的库一起使用。Guzzle 还抽离了底层的 HTTP 传输，允许编写与环境和传输无关的代码，这意味着它不依赖于 cURL、PHP 流、socket 或非阻塞事件循环。此外，Guzzle 还包含一个中间件系统，允许开发者增强和编排客户行为。
+
 这里使用 [Guzzle HTTP](https://guzzle-cn.readthedocs.io/zh_CN/latest/index.html) ：
 
 ```sh
@@ -1097,11 +1090,11 @@ composer require guzzlehttp/guzzle
 
 
 
-#### 2️⃣将 API Key添加到config.js中
+#### 2️⃣将API Key添加到config.js中
 
 
 
-#### 3️⃣添加高德地图脚本到 app.blade.php
+#### 3️⃣添加高德地图脚本到app.blade.php
 
 高德地图完整的 JS API 文档：https://lbs.amap.com/api/javascript-api/summary
 
@@ -1257,9 +1250,7 @@ php artisan make:controller API/BrewMethodsController
 
 
 
-
-
-### 19 通过Vue.js实现动态表单一次提交多个咖啡店位置信息
+### 19 通过Vue.js实现动态表单一次提交多个咖啡店位置信息 🔖
 
 由于一个咖啡店可能有多个分店，可能需要多个位置字段（具体数目未知），因此需要一个动态表单。
 
@@ -1819,6 +1810,8 @@ php artisan make:migration alter_cafes_add_matcha_tea --table=cafes
 
 
 
+🔖
+
 ### 33 实现编辑/删除咖啡店功能
 
 
@@ -1938,15 +1931,17 @@ php artisan make:policy ActionPolicy
 
 
 
-### 基于Vue Router路由元信息实现前端路由权限判断
+### 38 基于Vue Router路由元信息实现前端路由权限判断
 
 
 
-### 管理后台前端动作审核列表页面功能实现
+
+
+### 39 管理后台前端动作审核列表页面功能实现
 
 
 
-### 管理后台新增公司管理、用户管理、城市管理、冲泡方法管理等功能
+### 40 管理后台新增公司管理、用户管理、城市管理、冲泡方法管理等功能
 
 
 

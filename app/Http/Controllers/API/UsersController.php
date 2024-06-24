@@ -16,6 +16,7 @@ class UsersController extends Controller
 
     /**
      * 更新用户个人信息
+     * PUT /api/v1/user
      * @param EditUserRequest $request
      * @return JsonResponse
      */

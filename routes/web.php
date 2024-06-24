@@ -32,9 +32,12 @@ Route::get('/auth/{social}/callback', [AuthenticationController::class, 'getSoci
 
 
 // 测试
-Route::get('test', function () {
-    return \App\Utilities\GaodeMaps::geocodeAddress('张江高科地铁口', '上海', '上海');
+Route::get('test', function (\Illuminate\Http\Request $request) {
+//    return \App\Utilities\GaodeMaps::geocodeAddress('张江高科地铁口', '上海', '上海');
 //    return view('app');
+    $token = $request->session()->token();
+    print_r($request->session());
+    print_r($token);
 });
 
 

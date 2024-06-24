@@ -11,6 +11,7 @@ class TagsController extends Controller
 {
     /**
      * 搜索标签（自动提示/补全），根据输入词提供标签补全功能
+     * GET /api/v1/tags
      * @return JsonResponse
      */
     public function getTags()

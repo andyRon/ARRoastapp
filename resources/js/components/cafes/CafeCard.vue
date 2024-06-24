@@ -121,7 +121,7 @@ div.cafe-card {
         display: block;
         text-align: center;
         margin-top: 5px;
-        color: $grey;
+        //color: $grey;
         font-family: 'Lato', sans-serif;
         span.street {
             font-size: 14px;
@@ -139,7 +139,7 @@ div.cafe-card {
         }
     }
     span.liked-meta {
-        color: $grey;
+        //color: $grey;
         font-size: 10px;
         margin-left: 5px;
         margin-right: 3px;
